@@ -19,7 +19,7 @@ class Counter extends Component {
     
     handleIncrement = () => {
         console.log('sdffv')
-      /*this.props.dispatch({
+   /*   this.props.dispatch({
             type: 'INCREMENT'
         })*/
         this.props.dispatch(increment())    // Эта строка заменяет то, что закомментированно выше. Работает через папку АС
