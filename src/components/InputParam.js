@@ -1,14 +1,18 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {viewInput, paramSubmit} from '../AC'
+import {viewInput, paramSubmit, loadData} from '../AC'
 
 class InputParam extends Component {
     static propTypes = {
-     //   newParam: PropTypes.string   // Брать эти значения надо не из пересылки от родительского элемента, а из стора
+     //   newParam: PropTypes.string 
+    }
+    
+    componentDidMount() {
+     //     this.props.loadData()
+     //     console.log(this.props.loadData())
     }
 
-    
     render() {
         const zxc = this.props.newParam
         return (
@@ -18,7 +22,8 @@ class InputParam extends Component {
                 <input value = {zxc.vacancies} onChange = {e => this.handleInput(e.target.value, 'vacancies')}></input>
                 <input value = {zxc.area} onChange = {e => this.handleInput(e.target.value, 'area')}></input>
                 <button onClick = {this.handleSubmit}>Отправить запрос</button>
-                <h1>{JSON.stringify(this.props.paramFromUser)}</h1>
+                <div>______________________________________________________________________</div>
+                <div>{JSON.stringify(this.props.paramFromUser)}</div>
             </div>
         )
     }
@@ -37,14 +42,16 @@ class InputParam extends Component {
     }
 
     handleSubmit = () => {  
-            this.props.dispatch({
-                type: 'PARAMSUBMIT',
+      /*      this.props.dispatch({
+                type: 'PARAMSUBMIT', 
                 payload: this.props.newParam
-            })
+                
+        //        type: 'LOAD_DATA', 
+              //  callApi: 'https://api.hh.ru/vacancies'
+            })*/
+            this.props.dispatch(paramSubmit(this.props.newParam)) 
         }
-     //   this.props.dispatch(paramSubmit(this.props.newParam))  
-
-    
+             
 }
 
 function mapStateToProps(state) {   // Функция берёт текущее состояние стора и возвращает то значение из него, которое необходимо здесь
@@ -54,6 +61,9 @@ function mapStateToProps(state) {   // Функция берёт текущее 
     }
 }
 
-const decorator = connect(mapStateToProps)
+
+
+// const decorator = connect(mapStateToProps, {loadData})
+ const decorator = connect(mapStateToProps)
 
 export default decorator(InputParam)

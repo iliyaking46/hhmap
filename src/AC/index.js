@@ -18,3 +18,10 @@ export function paramSubmit(e) {
     }
 }
 
+export function loadData() {
+    return {
+        type: 'LOAD_DATA', 
+        callApi: 'https://api.hh.ru/metro/1'
+    }
+}
+

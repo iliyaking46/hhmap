@@ -1,6 +1,7 @@
 const asdasd = {
     vacancies: '',
-    area: ''
+    area: '',
+    metro: ''
 }
 
 export default (newParam = asdasd, action) => { // (state, action). "count = 0" - наальное значение, необходимое при инициализации store
@@ -31,6 +32,7 @@ export default (newParam = asdasd, action) => { // (state, action). "count = 0" 
                     vacancies: '',
                     area: ''
                 })    
+   
             
         default:
             return Object.assign({}, newParam, {})
