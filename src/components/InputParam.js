@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {viewInput, paramSubmit} from '../AC'
+import {viewInput, paramSubmit, loadData } from '../AC'
 //, loadData
 // import forSelector from '../reducer/forSelector';
 
@@ -10,16 +10,17 @@ class InputParam extends Component {
      //   newParam: PropTypes.string 
     }
     
- /*   componentDidMount() {
-     //     this.props.loadData()
-     //     console.log(this.props.loadData())
-    }*/
+    componentDidMount() {
+        this.props.dispatch(loadData())
+       //  console.log(loadData())
+    }
 
 
     render() {
         const zxc = this.props.newParam
         const xcv = this.props.forSelector.response
                 const cvb = typeof(xcv)
+        const slct = ['aaaa', 'bbbb', 'cccc']
 
         return (
             <div>
@@ -29,19 +30,24 @@ class InputParam extends Component {
                 <input value = {zxc.vacancies} onChange = {e => this.handleInput(e.target.value, 'vacancies')}></input>
                 <input value = {zxc.area} onChange = {e => this.handleInput(e.target.value, 'area')}></input>
          {
-          //      <select options = {this.dfdf}></select>
-         }  
+          //                <option value="A">Apple</option>
+         //       <option value="B">Banana</option>
+           //     <option value="C">Cranberry</option> 
+           //        <select options = {slct} >           </select>
+         }   
+         
+         <button onClick = {this.dfdf}>sfvsdfgsd</button>
                 <button onClick = {this.handleSubmit}>Отправить запрос</button>
-                <button onClick = {this.dfdf}>Какой-то запрос</button>
-                <div>______________________________________________________________________</div>
+                             <div>______________________________________________________________________</div>
                 <div>{JSON.stringify(this.props.forSelector.response)}</div>
             </div>
         )
     }
 
     dfdf = () => {
-        console.log(this.props.forSelector.response)
-        const xcv = this.props.forSelector.response.lines
+    //    console.log(this.props.forSelector.response)
+    //    const xcv = this.props.forSelector.response.lines
+    this.props.dispatch(loadData())
         //.metro.response.lines         .metro.response.lines[0].stations
      /*   const stations = xcv.map(line =>
             [{ label: line.name, value: line.id }, ...line.stations.map(station => (
@@ -51,11 +57,11 @@ class InputParam extends Component {
               }
             ))]
           ).reduce((newArr, nextArr) => [...newArr, ...nextArr], [])*/
-          const qwqw = xcv.map(x => {
+    /*      const qwqw = xcv.map(x => {
        //      return console.log(x.name)
        return x.name
             })
-          return console.log(qwqw)
+          return console.log(qwqw)*/
     }
 //   
     handleInput = (e, n) => {

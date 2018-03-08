@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Counter from '../components/Counter'
 import InputParam from '../components/InputParam'
 import {connect} from 'react-redux'
-import {loadData} from '../AC'
+// import {loadData} from '../AC'
 
-// export default 
-class App extends Component {
+export default class App extends Component {
+// class App extends Component {
 
  /* reqest = () => {  
     var xhr = new XMLHttpRequest();
@@ -23,11 +23,11 @@ class App extends Component {
       )
     }
   }*/
-
+/*
   componentDidMount() {
          this.props.loadData()
     //     console.log(this.props.loadData())
-   }
+   }*/
 
   render() {
     return (
@@ -46,10 +46,11 @@ class App extends Component {
     );
   }
 }
-
+/*
 function mapStateToProps(state) {   // Функция берёт текущее состояние стора и возвращает то значение из него, которое необходимо здесь
   return {}
 }
 
 const decorator = connect(mapStateToProps, {loadData})
-export default decorator(App)
+const decorator = connect(mapStateToProps)
+export default decorator(App) */
