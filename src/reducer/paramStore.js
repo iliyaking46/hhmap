@@ -1,7 +1,7 @@
 const asdasd2 = {
     vacancies: '',
     area: '',
-    metro: '',
+  //  metro: '',
 }
 
 export default (paramFromUser = asdasd2, action) => { // (state, action). "count = 0" - наальное значение, необходимое при инициализации store
@@ -21,14 +21,14 @@ export default (paramFromUser = asdasd2, action) => { // (state, action). "count
                   })
                 };
             return logic();    
-
+/*
         case 'LOAD_DATA':
             return Object.assign({}, paramFromUser, {
                 vacancies: '',
                 area: '',
                 metro: action
             }) 
-
+*/
         default:
             return paramFromUser;
     }

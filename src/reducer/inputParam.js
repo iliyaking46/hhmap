@@ -1,7 +1,7 @@
 const asdasd = {
     vacancies: '',
     area: '',
-    metro: ''
+//    metro: ''
 }
 
 export default (newParam = asdasd, action) => { // (state, action). "count = 0" - наальное значение, необходимое при инициализации store
