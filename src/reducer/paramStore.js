@@ -1,6 +1,7 @@
 const asdasd2 = {
     vacancies: '',
-    area: '',
+    schedule: '',
+    experience: ''
   //  metro: '',
 }
 
@@ -17,11 +18,12 @@ export default (paramFromUser = asdasd2, action) => { // (state, action). "count
                   console.log(payload)
                   return Object.assign({}, paramFromUser, {
                     vacancies: payload.vacancies,
-                    area: payload.area
+                    schedule: payload.schedule,
+                    experience: payload.experience
                   })
                 };
             return logic();    
-/*
+/*  search_field
         case 'LOAD_DATA':
             return Object.assign({}, paramFromUser, {
                 vacancies: '',

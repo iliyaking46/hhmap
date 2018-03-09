@@ -1,6 +1,7 @@
 const asdasd = {
     vacancies: '',
-    area: '',
+    schedule: '',
+    experience: ''
 //    metro: ''
 }
 
@@ -10,30 +11,29 @@ export default (newParam = asdasd, action) => { // (state, action). "count = 0" 
         
         case 'INPUTPARAM': 
             function logic() {
-                    // JSON.stringify()
                     let fromInput = action.payload   
                     let key = Object.keys(fromInput)
-                //  console.log(fromInput)
                     if (key[0] == 'vacancies') {
                             return Object.assign({}, newParam, {
                             vacancies: fromInput.vacancies
                           })
-                    } else if (key[0] == 'area') {
+                    } else if (key[0] == 'schedule') {
                         return Object.assign({}, newParam, {
-                            area: fromInput.area
+                            schedule: fromInput.schedule
+                          })
+                    } else if (key[0] == 'experience') {
+                        return Object.assign({}, newParam, {
+                            experience: fromInput.experience
                           })
                     }
                 };
-                    
-
-                return logic(); 
+               return logic(); 
            case 'PARAMSUBMIT':
                 return Object.assign({}, newParam, {
                     vacancies: '',
-                    area: ''
+                    schedule: '',
+                    experience: ''
                 })    
-   
-            
         default:
             return Object.assign({}, newParam, {})
     }

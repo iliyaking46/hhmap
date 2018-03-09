@@ -18,11 +18,13 @@ export function paramSubmit(e) {
     }
 }
 
-export function loadData() {
+export function loadData(e) {
+    let adress = 'https://api.hh.ru' + e
     return {
           type: 'LOAD_DATA', 
     //    type: 'INCREMENT',
-        callApi: 'https://api.hh.ru/metro/1'
+        callApi: adress
+        //'https://api.hh.ru/metro/1'
     }
 }
 

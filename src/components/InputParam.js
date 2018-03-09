@@ -3,78 +3,67 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {viewInput, paramSubmit, loadData } from '../AC'
 //, loadData
-// import forSelector from '../reducer/forSelector';
+// import data from '../reducer/data';
 
 class InputParam extends Component {
     static propTypes = {
      //   newParam: PropTypes.string 
     }
     
-    componentDidMount() {
-        this.props.dispatch(loadData())
-       //  console.log(loadData())
-    }
+ /*   componentDidMount() {
+  //      this.props.dispatch(loadData('/metro/1'))
+        this.props.dispatch(loadData('/dictionaries'))
+  //    console.log(typeof(this.props.data.response))
+    }*/
 
 
     render() {
+        console.log(typeof(this.props.data.response))
         const zxc = this.props.newParam
-        const xcv = this.props.forSelector.response
+        const xcv = this.props.data.response
                 const cvb = typeof(xcv)
         const slct = ['aaaa', 'bbbb', 'cccc']
 
-        return (
-            <div>
-                <h1>{zxc.vacancies}</h1>
-                <h1>{zxc.area}</h1>
-                <h1>{console.log(cvb)}</h1>
-                <input value = {zxc.vacancies} onChange = {e => this.handleInput(e.target.value, 'vacancies')}></input>
-                <input value = {zxc.area} onChange = {e => this.handleInput(e.target.value, 'area')}></input>
-         {
-          //                <option value="A">Apple</option>
-         //       <option value="B">Banana</option>
-           //     <option value="C">Cranberry</option> 
-           //        <select options = {slct} >           </select>
-         }   
-         
-         <button onClick = {this.dfdf}>sfvsdfgsd</button>
-                <button onClick = {this.handleSubmit}>Отправить запрос</button>
-                             <div>______________________________________________________________________</div>
-                <div>{JSON.stringify(this.props.forSelector.response)}</div>
-            </div>
-        )
+        const resp = this.props.data.response
+    /*    if (resp == undefined) {
+            return null    
+        } else {*/
+            return (
+                <div>
+                    <p>text:{zxc.vacancies}, schedule:{zxc.schedule}, experience: {zxc.experience}</p>
+                    <p>{JSON.stringify(this.props.paramFromUser.vacancies)}</p>
+                    <p>text:</p><input value = {zxc.vacancies} onChange = {e => this.handleInput(e.target.value, 'vacancies')}></input>
+                    <p>schedule:</p><input value = {zxc.schedule} onChange = {e => this.handleInput(e.target.value, 'schedule')}></input>
+                    <p>experience:</p><input value = {zxc.experience} onChange = {e => this.handleInput(e.target.value, 'experience')}></input>
+
+             {
+              //                <option value="A">Apple</option>
+             //       <option value="B">Banana</option>
+               //     <option value="C">Cranberry</option> 
+               //        <select options = {slct} >           </select>
+               //             <button onClick = {this.dfdf}>sfvsdfgsd</button>
+             }   
+             
+             
+                    <p></p><button onClick = {this.handleSubmit}>Отправить запрос</button>
+                                 <div>______________________________________________________________________</div>
+                    <div>{JSON.stringify(this.props.data.response)}</div>
+                </div>
+            )
+      //  }
     }
 
     dfdf = () => {
-    //    console.log(this.props.forSelector.response)
-    //    const xcv = this.props.forSelector.response.lines
-    this.props.dispatch(loadData())
-        //.metro.response.lines         .metro.response.lines[0].stations
-     /*   const stations = xcv.map(line =>
-            [{ label: line.name, value: line.id }, ...line.stations.map(station => (
-              {
-                label: station.name,
-                value: station.id
-              }
-            ))]
-          ).reduce((newArr, nextArr) => [...newArr, ...nextArr], [])*/
-    /*      const qwqw = xcv.map(x => {
-       //      return console.log(x.name)
-       return x.name
-            })
-          return console.log(qwqw)*/
+    //    console.log(this.props.data.response)
     }
-//   
+   
     handleInput = (e, n) => {
-          //  console.log({n: e})
-          //  let st = this.props.paramFromUser
             let fd = {}
             fd[n] = e
             this.props.dispatch({
             type: 'INPUTPARAM',
-         //   payload: [fd, st]
             payload: fd
         })
-     // this.props.dispatch(viewInput(e)) 
     }
 
     handleSubmit = () => {  
@@ -82,16 +71,22 @@ class InputParam extends Component {
                 type: 'PARAMSUBMIT', 
                 payload: this.props.newParam
             })*/
-            this.props.dispatch(paramSubmit(this.props.newParam)) 
-        }
-             
+            this.props.dispatch(paramSubmit(this.props.newParam))
+            let param = this.props.paramFromUser.vacancies
+            let str = '/vacancies?text='
+            let adress = str + param
+            console.log('------------------------', this)
+            console.log('------------------------', this.props)
+            //.paramFromUser.vacancies
+         this.props.dispatch(loadData(adress))
+        }     
 }
 
 function mapStateToProps(state) { 
     return {
         newParam: state.newParam,
         paramFromUser: state.paramFromUser,
-        forSelector: state.forSelector
+        data: state.data
     }
 }
 
