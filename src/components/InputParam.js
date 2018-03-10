@@ -17,6 +17,9 @@ class InputParam extends Component {
     }*/
 
 
+
+
+
     render() {
         console.log(typeof(this.props.data.response))
         const zxc = this.props.newParam
@@ -72,15 +75,36 @@ class InputParam extends Component {
                 payload: this.props.newParam
             })*/
             this.props.dispatch(paramSubmit(this.props.newParam))
-            let param = this.props.paramFromUser.vacancies
+            let wer = this.props.paramFromUser.vacancies
+           // this.setState()
+       
+            if (wer != undefined & '') {
+                let param = this.props.paramFromUser.vacancies
             let str = '/vacancies?text='
             let adress = str + param
-            console.log('------------------------', this)
+this.props.dispatch(loadData(adress))
+            } else {
+                console.log('херня')
+            }
+
+           
+   /*       
             console.log('------------------------', this.props)
-            //.paramFromUser.vacancies
-         this.props.dispatch(loadData(adress))
+            console.log('------------------------', this)
+            //.paramFromUser.vacancies*/
         }     
 }
+/*
+function erer(g, t) {
+    let str = '/vacancies?text='
+ let adress = str +  g
+t.props.dispatch(loadData(adress))
+ //this.props.dispatch(loadData(adress)) 
+}*/
+ 
+
+
+
 
 function mapStateToProps(state) { 
     return {
