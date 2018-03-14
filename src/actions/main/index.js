@@ -1,111 +1,45 @@
 import {
   LOAD_DATA, START, SUCCESS, FAIL
 } from '../../constants'
-/*
-export function loadData1(metroId, textSearch, paging) {
-  return (dispatch) => {
-
-    dispatch({
-      type: LOAD_DATA + START,
-      payload: { data: [], isLoadData: false }
-    })
-
-    const metro = metroId ? 'metro=' + metroId : '';
-    const text = textSearch ? `text=${textSearch.split(' ').join('+')}` : '';
-    const addUrl = [metro, text].join('&');
-    const baseUrl = ``;
-    //https://api.hh.ru/vacancies?area=1&page=${paging}&per_page=20&${addUrl}
-    console.log(baseUrl);
-
-    let pagesRequired = 0;
-
-    fetch(`${baseUrl}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Something went wrong ...');
-        }
-      })
-      .then(resp => {
-        console.log(resp, ' найдено вакансий: ', resp.found, '; страниц', resp.pages);
-        pagesRequired = resp.pages;
-        for (let i = 0; i < pagesRequired; i++) {
-          fetch(`${baseUrl}&page=${i}`)
-            .then(response => {
-              if (response.ok) {
-                return response.json();
-              } else {
-                throw new Error('Something went wrong ...');
-              }
-            })
-            .then(data => dispatch({
-              type: LOAD_DATA + SUCCESS,
-              payload: { data: [...data.items], isLoadData: true }
-            }))
-        }
-      })
-      .catch(error => {
-        dispatch({
-          type: LOAD_DATA + FAIL,
-          payload: { error }
-        })
-      })
-  }
-}
-*/
 
 export function loadData(metroId, textSearch, paging) {
   return (dispatch) => {
 
     dispatch({
       type: LOAD_DATA + START,
-      payload: { data: [], isLoadData: false }
+      payload: { data: [], isLoadData: false, paramOfData: {
+        found: 'Hello from actions/main/index.js(line 11)',
+        page: 0,
+        pages: 0,
+        address: 'Hello from actions/main/index.js(line 14)'
+      }
+     }
     })
 
     const metro = metroId ? 'metro=' + metroId : '';
     const text = textSearch ? `text=${textSearch.split(' ').join('+')}` : '';
     const addUrl = [metro, text].join('&');
- //   const baseUrl = `https://api.hh.ru/vacancies?area=1&per_page=100&${addUrl}`;
     const baseUrl = `https://api.hh.ru/vacancies?area=1&${addUrl}`;
-    //${paging}
-    //&page=0&per_page=20
-    console.log(paging);
+    //  console.log('_______________actions/main/index.js(line 73)_______________', paging);
 
     fetch(`${baseUrl}`)
       .then(resp => {
         if (resp.ok) {
-     /*     const hghg = resp.found
-          const pagin = 2
-          dispatch({
-            type: LOAD_DATA + SUCCESS,
-            payload: { data: resp.reverse().reduce((newArr, nextArr) => [...newArr, ...nextArr], []), isLoadData: true, found: hghg }
-            
-          })*/
           return resp.json();
         } else {
           throw new Error('Something went wrong ...');
         }
       })
       .then(resp => {
-     //   console.log(resp.pages);
-        console.log(resp.found);
-        const hghg = resp.found
-        const gfgf = resp.pages
-     //   const pagin = 2
+        //  console.log('_______________actions/main/index.js(line 92)_______________', resp.found);
         const apiPromises = [];
-   //     const pages = resp.pages;
- //       for (let i = 0; i < pages; i++) { apiPromises.push(fetch(`${baseUrl}&page=${i}`).then(resp => resp.json().then(resp => resp.errors ? [] : resp.items))) }
         apiPromises.push(fetch(`${baseUrl}&page=${0}`).then(resp => resp.json().then(resp => resp.errors ? [] : resp.items))) 
-        console.log(`${baseUrl}&page=${paging}` )
+        //  console.log('_______________actions/main/index.js(line 100)_______________', `${baseUrl}&page=${paging}` )
         Promise.all(apiPromises).then(data => dispatch({
           type: LOAD_DATA + SUCCESS,
-          payload: { data: data.reverse().reduce((newArr, nextArr) => [...newArr, ...nextArr], []), isLoadData: true, paramOfData: {found: hghg, page: paging, pages: gfgf, address: baseUrl} }
+          payload: { data: data.reverse().reduce((newArr, nextArr) => [...newArr, ...nextArr], []), isLoadData: true, paramOfData: {found: resp.found, page: paging, pages: resp.pages, address: baseUrl} }
         })
       )
-        
-      
- 
       })
       .catch(error => {
         dispatch({
@@ -121,13 +55,19 @@ export function loadData(metroId, textSearch, paging) {
 export function loadPage(paging, decr) {
   return (dispatch) => {
 
-    dispatch({
+  /*  dispatch({
       type: LOAD_DATA + START,
-      payload: { data: [], isLoadData: false }
+      payload: { data: [], isLoadData: false, paramOfData: {
+          found: 'Hello from actions/main/index.js(line 61)',
+          page: 0,
+          pages: 0,
+          address: 'Hello from actions/main/index.js(line 64)'
+        } 
+      }
     })
-
-       const baseUrl = paging.address
-     console.log(paging);
+*/
+    const baseUrl = paging.address
+    //  console.log('_______________actions/main/index.js(line 130)_______________', paging);
     fetch(`${baseUrl}`)
       .then(resp => {
         if (resp.ok) {
@@ -137,13 +77,10 @@ export function loadPage(paging, decr) {
         }
       })
       .then(resp => {
-  //    console.log(resp.found);
         const hghg = resp.found
-
         const apiPromises = [];
         apiPromises.push(fetch(`${baseUrl}&page=${paging.page - decr}`).then(resp => resp.json().then(resp => resp.errors ? [] : resp.items))) 
-        console.log('fffffffffffffffffffffffffffffffffffffffffffffffff',`${baseUrl}&page=${paging.page - decr}` )
-      //  paging = paging + 1
+        //  console.log('_______________actions/main/index.js(line 145)_______________',`${baseUrl}&page=${paging.page - decr}` )
         Promise.all(apiPromises).then(data => dispatch({
           type: LOAD_DATA + SUCCESS,
           payload: { data: data.reverse().reduce((newArr, nextArr) => [...newArr, ...nextArr], []), isLoadData: true, paramOfData: {found: hghg, page: paging.page - decr, pages: paging.pages, address: baseUrl} }

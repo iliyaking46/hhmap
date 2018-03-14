@@ -1,23 +1,22 @@
-// import React from 'react';
-import { Link } from "react-router-dom";
+//  import React from 'react';
+import { Link, Redirect } from "react-router-dom";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { loadPage } from '../actions/main'
-
-// export const JobsTable = ({ data, paramOfData }) => {
+//  export const JobsTable = ({ data, paramOfData }) => {
   
 class JobsTable extends Component {
 
   paginFunc = () => {
-    if (this.props.paramOfData.page == 1) {
-      let df = this.props.paramOfData
-      return <button onClick={() => this.props.loadPage(df, 0)}>Дальше</button>
-              //  this.props.loadPage(this.props.paramOfData.address, df.page)
+    if (this.props.paramOfData.page == 1 && this.props.paramOfData.pages == 1) {
+      return null
+    } else if (this.props.paramOfData.page == 1 ) {
+        let df = this.props.paramOfData
+        //  console.log(this.props.paramOfData.pages)
+        return <button onClick={() => this.props.loadPage(df, 0)}>Дальше</button> 
     } else if (this.props.paramOfData.page == this.props.paramOfData.pages) {
-      let df = this.props.paramOfData
-          return <button onClick={() => this.props.loadPage(df, 2)}>Назад</button>
-
+        let df = this.props.paramOfData
+        return <button onClick={() => this.props.loadPage(df, 2)}>Назад</button>
     } else {
         let df = this.props.paramOfData
         return (
@@ -26,11 +25,52 @@ class JobsTable extends Component {
             <button  onClick={() => this.props.loadPage(df, 0)}>Дальше</button>
           </div>
         )
+    }      
+  }
+
+  paginButton = (e) => {
+    //  console.log('_______________components/JobsTable.js(line 33)_______________', e)
+    let df = this.props.paramOfData
+    df.page = e
+    this.props.loadPage(df, 1)  
+  } 
+/*
+  button = () => {
+    const listOfPages = []
+    if (this.props.paramOfData.pages == 1) {
+      listOfPages[1] = null
+    } else {
+      for (let i = 1 ; i <= this.props.paramOfData.pages; i++ ) {
+        listOfPages[i] = {page: i, }
+      }
     }
-      
+    for (let i = 1 ; i <= this.props.paramOfData.pages; i++ ) {
+      listOfPages[i] = {page: i, }
     }
+    listOfPages.map(item => {
+      console.log(item)
+      return (
+        <div>
+     {   console.log('5285285285285')}
+        <button style={{display:'inline-block'}} key={item.page} onClick={() => this.paginButton(item.page)}>{item.page}</button>
+        </div>
+      )
+    })
+  }*/
 
   render() {
+
+    const listOfPages = []
+    if (this.props.paramOfData.pages == 1) {
+      listOfPages[1] = null
+    } else {
+      for (let i = 1 ; i <= this.props.paramOfData.pages; i++ ) {
+        listOfPages[i] = {page: i, }
+      }
+    }
+    
+
+    //  console.log('_______________components/JobsTable.js(line 54)_______________', listOfPages)
     return (
       <div className="mt-3" >
         <h2 className="text-center" >Найдено {this.props.paramOfData.found} вакансий</h2>
@@ -73,9 +113,22 @@ class JobsTable extends Component {
           </tbody>
         </table>
         <div>
-          {
-            this.paginFunc()
+          <p>Страница: {this.props.paramOfData.page}</p>
+          { this.paginFunc() /* Туда-сюда-кнопки  */}
+          <div style={{whiteSpace:'nowrap', width:200, owerflow:'hidden', owerflowX:'scroll'}/* Не знаю, какого хрена скролл не появляется в этом блоке, но это и не важно */}> 
+            { 
+              listOfPages.map(item => {
+                if (item == null) {
+                  return null
+                } else {
+                    return (
+                      <button style={{display:'inline-block'}} key={item.page} onClick={() => this.paginButton(item.page)}>{item.page}</button>
+                    )
+                }
+              })
+           //   this.button()
             }
+          </div>
         </div>
       </div>
     )
@@ -83,7 +136,6 @@ class JobsTable extends Component {
 }
 
 // export default JobsTable;
-
 export default connect(state => ({
   table: state,
 }), { loadPage })(JobsTable)
