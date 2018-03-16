@@ -19,7 +19,7 @@ class JobsTable extends Component {
   }
 
   paginFunc = () => {
-    console.log(this.props.table)
+    //  console.log(this.props.table)
     const { paramOfData } = this.props.table
     const { loadPage } = this.props
     //  if (paramOfData.found === 0 || paramOfData.pages === 1) return null
@@ -63,25 +63,44 @@ class JobsTable extends Component {
     }
   }
 
-  paginButton = e => {
-    //  console.log('_______________components/JobsTable.js(line 67)_______________', e)
-    const df = this.props.table.paramOfData
-    df.page = e
-    this.props.loadPage(df, 1)
+  paginButton = () => {
+    const { paramOfData } = this.props.table
+    //  console.log('_______________components/JobsTable.js(line 75)_______________', paramOfData.pages)
+
+    if (paramOfData.pages === 1) {
+      return null
+    }
+
+    const listOfPages = []
+    for (let i = 1; i <= paramOfData.pages; i++) {
+      listOfPages[i] = { page: i }
+    }
+
+    return listOfPages.map(item => {
+      //    let paramOfDataCopy = paramOfData
+      //    paramOfDataCopy.page = item.page
+      let paramOfDataCopy = {
+        found: paramOfData.found,
+        page: item.page,
+        pages: paramOfData.pages,
+        address: paramOfData.address,
+        searchText: paramOfData.searchText,
+        searchMetroId: paramOfData.searchMetroId,
+      }
+      return (
+        <button
+          style={{ display: 'inline-block' }}
+          key={item.page}
+          onClick={() => this.props.loadPage(paramOfDataCopy, 1)}
+        >
+          {item.page}
+        </button>
+      )
+    })
   }
 
   render() {
     const { data, isLoadData, paramOfData } = this.props.table
-
-    const listOfPages = []
-    if (paramOfData.pages === 1) {
-      listOfPages[1] = null
-    } else {
-      for (let i = 1; i <= paramOfData.pages; i++) {
-        listOfPages[i] = { page: i }
-      }
-    }
-
     return isLoadData ? (
       <div className="mt-3">
         <h2 className="text-center">Найдено {paramOfData.found} вакансий</h2>
@@ -117,22 +136,9 @@ class JobsTable extends Component {
             ))}
           </tbody>
         </table>
-        <p>Страница: {paramOfData.page}</p>
+        <p>Страница: {paramOfData.found === 0 ? paramOfData.page - 1 : paramOfData.page}</p>
         <div>{this.paginFunc()}</div>
-        <div>
-          {listOfPages.map(item => {
-            if (item == null) {
-              return null
-            }
-            return (
-              <button style={{ display: 'inline-block' }} key={item.page} onClick={() => this.paginButton(item.page)}>
-                {item.page}
-              </button>
-            )
-          })
-          //   this.button()
-          }
-        </div>
+        <div>{this.paginButton()}</div>
       </div>
     ) : (
       loader
