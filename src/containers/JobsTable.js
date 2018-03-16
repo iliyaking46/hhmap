@@ -19,10 +19,11 @@ class JobsTable extends Component {
   }
 
   paginFunc = () => {
-    // console.log(this.props.table);
+    console.log(this.props.table)
     const { paramOfData } = this.props.table
     const { loadPage } = this.props
-    if (paramOfData.found === 0 || paramOfData.pages === 1) return null
+    //  if (paramOfData.found === 0 || paramOfData.pages === 1) return null
+    if (paramOfData.page === 0 && paramOfData.pages === 0) return null
     switch (paramOfData.page) {
       case 1:
         return (
@@ -62,8 +63,25 @@ class JobsTable extends Component {
     }
   }
 
+  paginButton = e => {
+    //  console.log('_______________components/JobsTable.js(line 67)_______________', e)
+    const df = this.props.table.paramOfData
+    df.page = e
+    this.props.loadPage(df, 1)
+  }
+
   render() {
     const { data, isLoadData, paramOfData } = this.props.table
+
+    const listOfPages = []
+    if (paramOfData.pages === 1) {
+      listOfPages[1] = null
+    } else {
+      for (let i = 1; i <= paramOfData.pages; i++) {
+        listOfPages[i] = { page: i }
+      }
+    }
+
     return isLoadData ? (
       <div className="mt-3">
         <h2 className="text-center">Найдено {paramOfData.found} вакансий</h2>
@@ -78,32 +96,43 @@ class JobsTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {data.map(item => {
-              return (
-                <tr key={item.id}>
-                  <td>
-                    <Link to={`vacancies/${item.id}`}>{item.name}</Link>
-                  </td>
-                  <td>{item.employer.name}</td>
-                  <td>
-                    {(item.salary != null &&
-                      item.salary.from != null &&
-                      `от ${item.salary.from} ${item.salary.currency}`) ||
-                      'не указана'}
-                  </td>
-                  <td>
-                    {(item.salary != null &&
-                      item.salary.to != null &&
-                      `до ${item.salary.to} ${item.salary.currency}`) ||
-                      'не указана'}
-                  </td>
-                  <td>{new Date(item.created_at).toLocaleString()}</td>
-                </tr>
-              )
-            })}
+            {data.map(item => (
+              <tr key={item.id}>
+                <td>
+                  <Link to={`vacancies/${item.id}`}>{item.name}</Link>
+                </td>
+                <td>{item.employer.name}</td>
+                <td>
+                  {(item.salary != null &&
+                    item.salary.from != null &&
+                    `от ${item.salary.from} ${item.salary.currency}`) ||
+                    'не указана'}
+                </td>
+                <td>
+                  {(item.salary != null && item.salary.to != null && `до ${item.salary.to} ${item.salary.currency}`) ||
+                    'не указана'}
+                </td>
+                <td>{new Date(item.created_at).toLocaleString()}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <p>Страница: {paramOfData.page}</p>
         <div>{this.paginFunc()}</div>
+        <div>
+          {listOfPages.map(item => {
+            if (item == null) {
+              return null
+            }
+            return (
+              <button style={{ display: 'inline-block' }} key={item.page} onClick={() => this.paginButton(item.page)}>
+                {item.page}
+              </button>
+            )
+          })
+          //   this.button()
+          }
+        </div>
       </div>
     ) : (
       loader
