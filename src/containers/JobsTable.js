@@ -23,7 +23,7 @@ class JobsTable extends Component {
     const { paramOfData } = this.props.table
     const { loadPage } = this.props
     //  if (paramOfData.found === 0 || paramOfData.pages === 1) return null
-    if (paramOfData.page === 0 && paramOfData.pages === 0) return null
+    if (paramOfData.pages === 0 || paramOfData.pages === 1) return null
     switch (paramOfData.page) {
       case 1:
         return (
